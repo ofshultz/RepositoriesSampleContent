@@ -26,7 +26,7 @@ jobs:
       workspaceId: '05af8f0f-b0bb-4b16-a838-a5b4fd73bc93'
       directory: '${{ github.workspace }}'
       cloudEnv: 'AzurePPE'
-      contentTypes: 'AnalyticsRule'
+      contentTypes: 'AnalyticsRule,AutomationRule'
       branch: 'main-sentinel-deployment'
       sourceControlId: '9da1720d-71c0-4689-92ab-ce125d6fa0e0'
       rootDirectory: '${{ github.workspace }}'
