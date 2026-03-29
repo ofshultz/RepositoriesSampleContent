@@ -1,5 +1,3 @@
 FileName, CommitSha
-Detections/Sample/ARM/PaloAlto-PortScanning.json,2c192f812fefe77f21c705f233952461c0b149d7
 sentinel-deployment.config,d0176f11505175ced27cc0d3ede6f708fe7e120e
-Detections/Sample/ARM/PasswordSpray.json,9190e34e9b54db53303efe49488cf5cf8c245b1c
 
