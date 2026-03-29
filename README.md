@@ -6,6 +6,8 @@ This repository provides samples of deployable Sentinel content as well as examp
 # The Sample Content Folders
 You can find a variety of supported content to use in your test deployments in the respective content folders of this repository. In addition, you can utilize the JSON or YAML to ARM scripts we've included in some folders (e.g. Detections, Hunting, and Workbooks) to convert your content files to the supported ARM format for repositories deployment. Please note that these scripts were used to convert some of the content in the [Azure Sentinel Community Repository](https://github.com/Azure/Azure-Sentinel) but have not been tested on all variations of content, please use with care.
 
+The Watchlists folder contains sample watchlist templates (ARM and Bicep) with inline CSV data that deploy a "High Value Assets" watchlist for tracking critical servers and devices in your organization.
+
 # Scaling your CICD pipeline
 ## Sentinel Deployment Configuration
 To further customize your CICD pipeline beyond the default settings, you can modify your deployment workflow or utilize a configuration file to tailor your the pipeline to your specific needs - more on this in [the documentation](https://learn.microsoft.com/en-us/azure/sentinel/ci-cd-custom-deploy?tabs=github). 
