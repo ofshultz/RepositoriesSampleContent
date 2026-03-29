@@ -26,7 +26,7 @@ jobs:
       workspaceId: '57f2d9e0-5184-42ce-8620-50800390daaa'
       directory: '${{ github.workspace }}'
       cloudEnv: 'AzurePPE'
-      contentTypes: 'AnalyticsRule'
+      contentTypes: 'AnalyticsRule,Watchlist'
       branch: 'main'
       sourceControlId: 'f2b80156-2c2d-4191-ae89-0f4dbad54c76'
       rootDirectory: '${{ github.workspace }}'
@@ -47,9 +47,9 @@ jobs:
           Add-AzEnvironment `
           -Name AzurePPE `
           -ActiveDirectoryEndpoint https://login.windows-ppe.net `
-          -ResourceManagerEndpoint https://management.azure.com/ `
+          -ResourceManagerEndpoint https://api-dogfood.resources.windows-int.net/ `
           -ActiveDirectoryServiceEndpointResourceId https://management.core.windows.net `
-          -GraphEndpoint https://graph.ppe.windows.net/ | out-null;
+          -GraphEndpoint https://graph.microsoft-ppe.com/ | out-null;
           $oidcTokenParams = @{
            Uri            = $env:ACTIONS_ID_TOKEN_REQUEST_URL
            Body           = @{
@@ -68,6 +68,7 @@ jobs:
     - name: Login to Azure (Attempt 2)
       continue-on-error: true
       id: login2
+      if: ${{ steps.login1.outcome=='failure' }}
       uses: azure/powershell@v2
       with:
         azPSVersion: 'latest'
@@ -75,9 +76,9 @@ jobs:
           Add-AzEnvironment `
           -Name AzurePPE `
           -ActiveDirectoryEndpoint https://login.windows-ppe.net `
-          -ResourceManagerEndpoint https://management.azure.com/ `
+          -ResourceManagerEndpoint https://api-dogfood.resources.windows-int.net/ `
           -ActiveDirectoryServiceEndpointResourceId https://management.core.windows.net `
-          -GraphEndpoint https://graph.ppe.windows.net/ | out-null;
+          -GraphEndpoint https://graph.microsoft-ppe.com/ | out-null;
           $oidcTokenParams = @{
            Uri            = $env:ACTIONS_ID_TOKEN_REQUEST_URL
            Body           = @{
@@ -96,6 +97,7 @@ jobs:
     - name: Login to Azure (Attempt 3)
       continue-on-error: false
       id: login3
+      if: ${{ steps.login2.outcome=='failure' }}
       uses: azure/powershell@v2
       with:
         azPSVersion: 'latest'
@@ -103,9 +105,9 @@ jobs:
           Add-AzEnvironment `
           -Name AzurePPE `
           -ActiveDirectoryEndpoint https://login.windows-ppe.net `
-          -ResourceManagerEndpoint https://management.azure.com/ `
+          -ResourceManagerEndpoint https://api-dogfood.resources.windows-int.net/ `
           -ActiveDirectoryServiceEndpointResourceId https://management.core.windows.net `
-          -GraphEndpoint https://graph.ppe.windows.net/ | out-null;
+          -GraphEndpoint https://graph.microsoft-ppe.com/ | out-null;
           $oidcTokenParams = @{
            Uri            = $env:ACTIONS_ID_TOKEN_REQUEST_URL
            Body           = @{
