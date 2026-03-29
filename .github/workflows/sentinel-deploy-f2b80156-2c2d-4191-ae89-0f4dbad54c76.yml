@@ -26,7 +26,7 @@ jobs:
       workspaceId: '57f2d9e0-5184-42ce-8620-50800390daaa'
       directory: '${{ github.workspace }}'
       cloudEnv: 'AzurePPE'
-      contentTypes: 'AnalyticsRule,Watchlist'
+      contentTypes: 'Watchlist'
       branch: 'main'
       sourceControlId: 'f2b80156-2c2d-4191-ae89-0f4dbad54c76'
       rootDirectory: '${{ github.workspace }}'
