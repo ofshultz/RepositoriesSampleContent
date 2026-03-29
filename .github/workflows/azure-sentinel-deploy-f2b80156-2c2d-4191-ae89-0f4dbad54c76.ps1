@@ -12,7 +12,8 @@ $contentTypeMapping = @{
     "Parser"=@("Microsoft.OperationalInsights/workspaces/savedSearches");
     "Playbook"=@("Microsoft.Web/connections", "Microsoft.Logic/workflows", "Microsoft.Web/customApis");
     "Workbook"=@("Microsoft.Insights/workbooks");
-    "CustomDetection"=@("Microsoft.XDR/customDetections");
+    "CustomDetection"=@("Microsoft.Security/detectionRules");
+    "Watchlist"=@("Microsoft.OperationalInsights/workspaces/providers/watchlists");
 }
 $sourceControlId = $Env:sourceControlId
 $rootDirectory = $Env:rootDirectory
@@ -38,7 +39,7 @@ $sentinelResourcePatterns = @{
     "Parser" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.OperationalInsights/workspaces/$namePattern/savedSearches/$namePattern"
     "Playbook" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.Logic/workflows/$namePattern"
     "Workbook" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.Insights/workbooks/$namePattern"
-    "CustomDetection" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.XDR/customDetections/$namePattern"
+    "Watchlist" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.OperationalInsights/workspaces/$namePattern/providers/Microsoft.SecurityInsights/watchlists/$namePattern"
 }
 
 if ([string]::IsNullOrEmpty($contentTypes)) {
@@ -325,16 +326,37 @@ function IsRetryable($deploymentName) {
 
 function IsValidResourceType($template) {
     try {
-        $isAllowedResources = $true
-        $template.resources | ForEach-Object {
-            $isAllowedResources = $resourceTypes.contains($_.type.ToLower()) -and $isAllowedResources
+        $resources = GetNormalizedResources $template
+        Write-Host "Resources count: $($resources.Count)"
+
+        foreach ($r in $resources) {
+            if (-not $r.type) {
+                Write-Host "[Warning] Resource without type detected"
+                return $false
+            }
+
+			$normalizedType = $r.type.ToLower().Split("@")[0]
+            if (-not $resourceTypes.Contains($normalizedType)) {
+				Write-Host "Resource type '$normalizedType' was not selected for this connection - skipping"
+                return $false
+            }
         }
+
+        return $true
     }
     catch {
         Write-Host "[Error] Failed to check valid resource type."
-        $isAllowedResources = $false
+        return $false
     }
-    return $isAllowedResources
+}
+
+function GetNormalizedResources($template) {
+    if ($template.languageVersion -eq "2.0") {
+        return $template.resources.PSObject.Properties.Value
+    }
+    else {
+        return $template.resources
+    }
 }
 
 function DoesContainWorkspaceParam($templateObject) {
