@@ -13,7 +13,7 @@ $contentTypeMapping = @{
     "Playbook"=@("Microsoft.Web/connections", "Microsoft.Logic/workflows", "Microsoft.Web/customApis");
     "Workbook"=@("Microsoft.Insights/workbooks");
     "CustomDetection"=@("Microsoft.XDR/customDetections");
-	"Watchlist"=@("Microsoft.OperationalInsights/workspaces/providers/watchlists");
+	"Watchlist"=@("Microsoft.OperationalInsights/workspaces/providers/watchlists", "Microsoft.SecurityInsights/watchlists");
 }
 $sourceControlId = $Env:sourceControlId
 $rootDirectory = $Env:rootDirectory
