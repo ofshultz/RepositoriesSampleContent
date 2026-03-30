@@ -4,14 +4,18 @@ param workspace string
 @minLength(1)
 param watchlist_id string = 'a1c18f90-7152-4d3c-bf0c-e2b0c3e1a5d7'
 
-resource workspace_Microsoft_SecurityInsights_watchlist_id 'Microsoft.OperationalInsights/workspaces/providers/watchlists@2022-11-01' = {
-  name: '${workspace}/Microsoft.SecurityInsights/${watchlist_id}'
+resource workspaceResource 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+  name: workspace
+}
+
+resource watchlist 'Microsoft.SecurityInsights/watchlists@2022-11-01' = {
+  scope: workspaceResource
+  name: watchlist_id
   properties: {
     displayName: 'High Value Assets'
     description: 'A sample watchlist that tracks critical assets in your organization, including servers, workstations, and network devices that require priority monitoring.'
     provider: 'Microsoft'
     source: 'SampleHighValueAssets.csv'
-    sourceType: 'Local'
     itemsSearchKey: 'IPAddress'
     contentType: 'text/csv'
     numberOfLinesToSkip: 0
