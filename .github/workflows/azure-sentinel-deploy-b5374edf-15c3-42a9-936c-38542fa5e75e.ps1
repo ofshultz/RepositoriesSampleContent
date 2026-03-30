@@ -13,6 +13,7 @@ $contentTypeMapping = @{
     "Playbook"=@("Microsoft.Web/connections", "Microsoft.Logic/workflows", "Microsoft.Web/customApis");
     "Workbook"=@("Microsoft.Insights/workbooks");
     "CustomDetection"=@("Microsoft.XDR/customDetections");
+	"Watchlist"=@("Microsoft.OperationalInsights/workspaces/providers/watchlists");
 }
 $sourceControlId = $Env:sourceControlId
 $rootDirectory = $Env:rootDirectory
@@ -39,6 +40,7 @@ $sentinelResourcePatterns = @{
     "Playbook" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.Logic/workflows/$namePattern"
     "Workbook" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.Insights/workbooks/$namePattern"
     "CustomDetection" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.XDR/customDetections/$namePattern"
+	"Watchlist" = "/subscriptions/$guidPattern/resourceGroups/$namePattern/providers/Microsoft.OperationalInsights/workspaces/$namePattern/providers/Microsoft.SecurityInsights/watchlists/$namePattern"
 }
 
 if ([string]::IsNullOrEmpty($contentTypes)) {
