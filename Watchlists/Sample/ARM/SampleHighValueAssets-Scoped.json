@@ -2,12 +2,8 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "workspaceResourceId": {
-            "type": "string",
-            "defaultValue": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.OperationalInsights/workspaces/myWorkspace",
-            "metadata": {
-                "description": "The full resource ID of the Log Analytics workspace (e.g. /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.OperationalInsights/workspaces/{workspace})"
-            }
+        "workspace": {
+            "type": "String"
         },
         "watchlist-id": {
             "type": "string",
@@ -22,7 +18,7 @@
         {
             "name": "[parameters('watchlist-id')]",
             "type": "Microsoft.SecurityInsights/watchlists",
-            "scope": "[parameters('workspaceResourceId')]",
+            "scope": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace'))]",
             "apiVersion": "2022-11-01",
             "properties": {
                 "displayName": "High Value Assets",
